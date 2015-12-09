@@ -33,8 +33,6 @@ log.info("Setting up asd-agent");
 // Setup directories
 log.info(`Emptying directory ${c.AGENT_BASE_PATH}`);
 fs.emptyDirSync(c.AGENT_BASE_PATH);
-log.info(`Emptying directory ${c.AGENT_LOG_PATH}`);
-fs.emptyDirSync(c.AGENT_LOG_PATH);
 log.info(`Emptying directory ${c.AGENT_S3_BUCKET_PATH}`);
 fs.emptyDirSync(c.AGENT_S3_BUCKET_PATH);
 
