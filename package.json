@@ -1,0 +1,58 @@
+{
+  "name": "asd-agent",
+  "version": "1.0.0",
+  "description": "Deploy static web-apps on AWS",
+  "main": "lib/index.js",
+  "bin": {
+    "asd-agent": "./bin/asd-agent.js",
+    "asd-generate-conf": "./bin/asd-generate-conf.js",
+    "asd-setup": "./bin/asd-setup.js"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf lib coverage",
+    "coverage": "NODE_ENV=test babel-node $(npm bin)/isparta cover $(npm bin)/_mocha -- --recursive",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "dev": "npm test -- --watch",
+    "lint": "eslint src test",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive"
+  },
+  "author": "Team Wattellina <wattellina@mondora.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innowatio/asd-agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/innowatio/asd-agent/issues"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.13",
+    "babel-eslint": "^5.0.0-beta4",
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.4",
+    "eslint": "^1.10.3",
+    "isparta": "^4.0.0",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "babel": "^6.3.13",
+    "babel-core": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "aws-sdk": "^2.2.21",
+    "axios": "^0.7.0",
+    "babel-register": "^6.3.13",
+    "bluebird": "^3.0.6",
+    "body-parser": "^1.14.1",
+    "bunyan": "^1.5.1",
+    "bunyan-request": "^1.2.0",
+    "exit": "^0.1.2",
+    "express": "^4.13.3",
+    "fs-extra": "^0.26.2",
+    "handlebars": "^4.0.5",
+    "sns-validator": "^0.2.0"
+  }
+}
