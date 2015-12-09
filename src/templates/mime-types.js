@@ -1,7 +1,10 @@
 import fs from "fs-extra";
+import {join} from "path";
 
-const mimeTypes = fs.readFileSync(`${__dirname}/mime.types`, "utf8");
+const mimeTypesTemplate = fs.readFileSync(
+    join(__dirname, "../../templates/mime.types"), "utf8"
+);
 
 export function getMimeTypes () {
-    return mimeTypes;
+    return mimeTypesTemplate;
 }

@@ -1,6 +1,4 @@
 #!/usr/bin/env node
 
-require("babel-register")({
-    ignore: /node_modules\/(?!asd-agent)/
-});
-require("../src/agent");
+const forever = require("forever");
+forever.startDaemon("../lib/agent/");
