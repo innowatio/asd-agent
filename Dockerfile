@@ -24,7 +24,6 @@ RUN pip install awscli
 RUN mkdir /asd-agent
 ADD ./ /asd-agent/
 RUN npm install --global --unsafe-perm /asd-agent/
-RUN asd-setup
 EXPOSE 34051
 
-CMD ["asd-agent"]
+CMD ["./start.sh"]

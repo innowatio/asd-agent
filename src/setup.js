@@ -1,11 +1,11 @@
-import bunyan from "bunyan";
 import fs from "fs-extra";
 
 import * as c from "./config";
+import getLogger from "./get-logger";
 import {getNginxConf} from "./templates/nginx-conf";
 import {getMimeTypes} from "./templates/mime-types";
 
-const log = bunyan.createLogger({name: "asd-setup"});
+const log = getLogger("asd-setup");
 
 log.info("asd-setup started");
 

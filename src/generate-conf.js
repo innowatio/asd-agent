@@ -1,11 +1,11 @@
-import bunyan from "bunyan";
 import {execSync} from "child_process";
 import fs from "fs-extra";
 
 import * as c from "./config";
+import getLogger from "./get-logger";
 import {getSiteConf} from "./templates/site-conf";
 
-const log = bunyan.createLogger({name: "asd-generate-conf"});
+const log = getLogger("asd-generate-conf");
 
 function writeNginxConfs (sites) {
     sites.forEach(site => {

@@ -33,4 +33,5 @@ export const AGENT_SNS_TOPIC_ARN    = process.env.SNS_TOPIC_ARN;
 export const AGENT_S3_BUCKET        = process.env.S3_BUCKET;
 export const AGENT_S3_BUCKET_REGION = getBucketRegion(AGENT_S3_BUCKET);
 export const AGENT_BASE_PATH        = "/opt/asd-agent";
+export const AGENT_LOG_PATH         = "/var/log/asd-agent";
 export const AGENT_S3_BUCKET_PATH   = `${AGENT_BASE_PATH}/s3-bucket`;
