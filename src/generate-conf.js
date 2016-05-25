@@ -7,10 +7,24 @@ import {getSiteConf} from "./templates/site-conf";
 
 const log = getLogger("asd-generate-conf");
 
+function getRootDirectory (site) {
+    return `${c.AGENT_S3_BUCKET_PATH}/${site.domain}/${site.stage}`;
+}
+
+function writeAppConfs (sites) {
+    sites.forEach(site => {
+        if (site.config) {
+            const rootDirectory = getRootDirectory(site);
+            const appConfig = `window.APP_CONFIG = ${JSON.stringify(site.config, null, 4)};`;
+            fs.writeFileSync(`${rootDirectory}/app-config.js`, appConfig);
+        }
+    });
+}
+
 function writeNginxConfs (sites) {
     sites.forEach(site => {
         const fullDomain = `${site.stage}.${site.domain}`;
-        const rootDirectory = `${c.AGENT_S3_BUCKET_PATH}/${site.domain}/${site.stage}`;
+        const rootDirectory = getRootDirectory(site);
         const config = getSiteConf({fullDomain, rootDirectory});
         log.info(`Writing conf for ${fullDomain}`);
         fs.writeFileSync(`${c.NGINX_SITES_PATH}/${fullDomain}.conf`, config, "utf8");
@@ -35,8 +49,12 @@ fs.emptyDirSync(c.NGINX_SITES_PATH);
 // Write the new configuration
 log.info("Writing new confs");
 writeNginxConfs(sites);
+
+// Write app-config file
+writeAppConfs(sites);
+
 // Reload nginx
 log.info("Reloading nginx");
-execSync(`service nginx reload`);
+execSync("service nginx reload");
 
 log.info("asd-generate-conf ended successfully");
