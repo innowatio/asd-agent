@@ -6,3 +6,29 @@
 # asd-agent
 
 Deploy static web-apps on AWS
+
+## Setup
+
+For update the `asd-agent` server, you should
+```
+npm i -g asd-agent
+```
+
+After that, you should stop the [`forever`](https://github.com/foreverjs/forever) daemon
+
+```sh
+forever stop "id"
+```
+
+setup the environment variables:
+
+```sh
+export S3_BUCKET="S3_BUCKET"
+export SNS_TOPIC_ARN="SNS_TOPIC_ARN"
+```
+
+and start the updated `asd-agent`
+
+```sh
+forever start $(which asd-agent)
+```

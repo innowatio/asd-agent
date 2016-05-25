@@ -16,6 +16,7 @@ function writeAppConfs (sites) {
         if (site.config) {
             const rootDirectory = getRootDirectory(site);
             const appConfig = `window.APP_CONFIG = ${JSON.stringify(site.config, null, 4)};`;
+            log.info(`Writing app-config ${appConfig} for ${rootDirectory}`);
             fs.writeFileSync(`${rootDirectory}/app-config.js`, appConfig);
         }
     });
