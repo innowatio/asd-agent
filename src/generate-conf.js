@@ -11,14 +11,19 @@ function getRootDirectory (site) {
     return `${c.AGENT_S3_BUCKET_PATH}/${site.domain}/${site.stage}`;
 }
 
-function writeAppConfs (sites) {
+function writeAppConfs (sites, defaultSitesConfig) {
     sites.forEach(site => {
+        const rootDirectory = getRootDirectory(site);
+        var appConfig = null;
         if (site.config) {
-            const rootDirectory = getRootDirectory(site);
-            const appConfig = `window.APP_CONFIG = ${JSON.stringify(site.config, null, 4)};`;
-            log.info(`Writing app-config ${appConfig} for ${rootDirectory}`);
+            appConfig = `window.APP_CONFIG = ${JSON.stringify(site.config, null, 4)};`;
+            log.info(`Writing app-config file with ${appConfig} for ${rootDirectory}`);
             fs.writeFileSync(`${rootDirectory}/app-config.js`, appConfig);
+        } else {
+            appConfig = `window.APP_CONFIG = ${JSON.stringify(defaultSitesConfig, null, 4)};`;
+            log.info(`Writing app-config file with default config ${defaultSitesConfig} for ${rootDirectory}`);
         }
+        fs.writeFileSync(`${rootDirectory}/app-config.js`, appConfig);
     });
 }
 
@@ -41,9 +46,11 @@ log.info(`Setting permissions on ${c.AGENT_S3_BUCKET_PATH}`);
 execSync(`chmod -R +r ${c.AGENT_S3_BUCKET_PATH}`);
 // Read the sites configuration from the bucket
 log.info("Reading sites from bucket");
-const sites = JSON.parse(
+const sitesFile = JSON.parse(
     fs.readFileSync(`${c.AGENT_S3_BUCKET_PATH}/sites.json`, "utf8")
 );
+const sites = sitesFile.sites;
+const defaultSitesConfig = sitesFile.defaultConfig;
 // Remove the current configuration
 log.info("Removing old confs");
 fs.emptyDirSync(c.NGINX_SITES_PATH);
@@ -52,7 +59,8 @@ log.info("Writing new confs");
 writeNginxConfs(sites);
 
 // Write app-config file
-writeAppConfs(sites);
+log.info("Writing new app confs");
+writeAppConfs(sites, defaultSitesConfig);
 
 // Reload nginx
 log.info("Reloading nginx");
